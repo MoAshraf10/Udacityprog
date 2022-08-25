@@ -31,7 +31,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
             aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
             
@@ -209,10 +209,10 @@ jobs:
            fingerprints: ["82:d4:ce:b5:9b:cb:36:a7:ac:a5:88:40:a0:19:b5:63"]
       - attach_workspace:
           at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            yum install -y tar gzip
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       yum install -y tar gzip
       - run:
           name: Install Ansible v2
           command: | 
