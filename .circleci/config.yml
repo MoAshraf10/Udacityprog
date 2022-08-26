@@ -203,7 +203,7 @@ jobs:
       
     steps:
       - checkout 
-      - install_ansible
+      
       - install_aws_cli
       
 
