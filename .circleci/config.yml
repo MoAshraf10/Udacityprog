@@ -183,12 +183,16 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --query 'Reservation[*].Instances[*].PublicIpAddress' \
-              --output text)
-            echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
-            cat .circleci/ansible/inventory.txt   
+            cd .circleci/ansible
+            cat inventory.txt
+            aws ec2 describe-instances \
+            --query 'Reservation[*].Instances[*].PublicIpAddress' \
+            --output text --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} >> inventory.txt
+            cat inventory.txt  
+           
+            
+            
+            
 
             
       - persist_to_workspace:
@@ -197,34 +201,34 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment
 
-  configure-infrastructure:
-    docker: 
-      - image: cimg/base:stable 
+  # configure-infrastructure:
+  #   docker: 
+  #     - image: cimg/base:stable 
       
-    steps:
-      - checkout 
-      - install_aws_cli
-      - run:
-             name: Install Ansible v2
-             command:
-                 sudo apt update && sudo apt install software-properties-common && sudo add-apt-repository --yes --update ppa:ansible/ansible && sudo apt install ansible
+  #   steps:
+  #     - checkout 
+  #     - install_aws_cli
+  #     - run:
+  #            name: Install Ansible v2
+  #            command:
+  #                sudo apt update && sudo apt install software-properties-common && sudo add-apt-repository --yes --update ppa:ansible/ansible && sudo apt install ansible
 
-      - add_ssh_keys:
-           fingerprints: ["82:d4:ce:b5:9b:cb:36:a7:ac:a5:88:40:a0:19:b5:63"]
-      - attach_workspace:
-          at: ~/
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       yum install -y tar gzip
+  #     - add_ssh_keys:
+  #          fingerprints: ["82:d4:ce:b5:9b:cb:36:a7:ac:a5:88:40:a0:19:b5:63"]
+  #     - attach_workspace:
+  #         at: ~/
+  #     # - run:
+  #     #     name: Install dependencies
+  #     #     command: |
+  #     #       yum install -y tar gzip
           
-      - run:
-          name: Configure server
-          command: |
-            cd .circleci/ansible
-            cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
-      - destroy-environment
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           cd .circleci/ansible
+  #           cat inventory.txt
+  #           ansible-playbook -i inventory.txt configure-server.yml
+  #     - destroy-environment
 
 #   run-migrations:
 #     docker:
@@ -357,8 +361,8 @@ workflows:
           filters:
             branches:
               only: [master]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
