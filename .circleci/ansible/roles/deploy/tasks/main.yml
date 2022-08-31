@@ -6,7 +6,7 @@
 
 - name: "copy files"
   template:
-   src: ".circleci/ansible/roles/deploy/files//artifact.tar.gz"
+   src: ~/project/artifact.tar.gz
    dest: "~/backend-app/artifact.tar.gz"
 
 - name: "Unarchive backend files"
