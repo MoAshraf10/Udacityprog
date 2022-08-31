@@ -6,7 +6,7 @@
 
 - name: "copy files"
   template:
-   src: ~/Udacityprog/.circleci/ansible/roles/deploy/files
+   src: ~/.circleci/ansible/roles/deploy/files
    dest: "~/backend-app/artifact.tar.gz"
 
 - name: "Unarchive backend files"
