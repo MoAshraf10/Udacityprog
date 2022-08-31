@@ -6,7 +6,7 @@
 
 - name: "copy files"
   template:
-   src: ~/project/artifact.tar.gz
+   src: artifact.tar.gz
    dest: "~/backend-app/artifact.tar.gz"
 
 - name: "Unarchive backend files"
