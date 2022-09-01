@@ -11,7 +11,6 @@
 
   environment:  
    Enviroment: production
-   Version: "1"
    TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
    TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
    TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST')}}"
@@ -31,6 +30,6 @@
       become: true
       raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
       changed_when: false
-      
+
   roles:
     - deploy
