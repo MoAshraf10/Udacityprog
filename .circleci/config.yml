@@ -307,7 +307,8 @@ jobs:
 
       - run:
           name: package backend
-          command: cd backend
+          command: |
+                   cd backend
                    npm i
                    npm run build
                    cd ..
