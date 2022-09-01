@@ -23,8 +23,8 @@
 - name: "Executing Node app with PM2"
   shell: |
 
-   pm2 stop default
-   pm2 start npm -- start
+   sudo pm2 stop default
+   sudo pm2 start npm -- start
 
  
 - name:  start app
