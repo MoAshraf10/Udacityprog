@@ -4,15 +4,16 @@
     path: ~/backend-app
     state: directory
 
-- name: "copy files"
-  template:
-   src: ~/.circleci/ansible/roles/deploy/files
-   dest: "~/backend-app/artifact.tar.gz"
+# - name: "copy files"
+#   template:
+#    src: ~/
+#    dest: "~/backend-app/artifact.tar.gz"
 
 - name: "Unarchive backend files"
   unarchive:
-    src: "~/backend-app/artifact.tar.gz"
-    dest: "~/backend-app"
+    src: artifact.tar.gz
+    dest: ~/backend-app
+
 - name: "Installing Node Dependencies"
   shell: |
    cd ~/backend-app
