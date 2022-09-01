@@ -388,7 +388,6 @@ jobs:
       
     steps:
       - checkout
-      - install_aws_cli
       - install_nodejs  
           
       - run:
